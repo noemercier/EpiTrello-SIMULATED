@@ -17,9 +17,9 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const { title, description, dueDate, assigneeId } = await request.json();
+    const { title, description, dueDate, assigneeId, columnId, order } = await request.json();
 
-    if (!title) {
+    if (title !== undefined && !title) {
       return NextResponse.json(
         { error: "Title is required" },
         { status: 400 }
@@ -76,10 +76,12 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
     const updatedTask = await prisma.task.update({
       where: { id: params.id },
       data: {
-        title,
-        description,
-        dueDate: dueDate ? new Date(dueDate) : null,
-        assigneeId: assigneeId || null,
+        ...(title !== undefined && { title }),
+        ...(description !== undefined && { description }),
+        ...(dueDate !== undefined && { dueDate: dueDate ? new Date(dueDate) : null }),
+        ...(assigneeId !== undefined && { assigneeId: assigneeId || null }),
+        ...(columnId !== undefined && { columnId }),
+        ...(order !== undefined && { order }),
       },
       include: {
         assignee: {
