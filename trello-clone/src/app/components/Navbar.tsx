@@ -9,7 +9,7 @@ export default function Navbar() {
     <nav className="glass-header flex justify-between items-center px-8 py-4 shadow-md border-b border-white/20">
       <div className="flex items-center space-x-8">
         <Link href="/" className="font-bold text-2xl text-white font-title hover:text-blue-200 transition-colors drop-shadow-md">
-          MiniTrello
+          EpiTrello
         </Link>
         {session && (
           <Link href="/boards" className="text-blue-200 hover:text-white font-semibold transition-colors drop-shadow-sm">
@@ -17,6 +17,7 @@ export default function Navbar() {
           </Link>
         )}
       </div>
+      
       <div className="flex items-center space-x-4">
         {session ? (
           <>

@@ -15,6 +15,9 @@ export default function HomePage() {
     }
   }, [status, router]);
 
+  // Add debug logging
+  console.log("HomePage - Session status:", status, "Session data:", session);
+
   if (status === "loading") {
     return (
       <div className="flex items-center justify-center h-[80vh]">
@@ -24,15 +27,25 @@ export default function HomePage() {
   }
 
   if (status === "authenticated") {
-    return null; // Will redirect
+    return (
+      <div className="flex items-center justify-center h-[80vh]">
+        <div className="text-gray-600">Redirecting...</div>
+      </div>
+    );
   }
 
   return (
     <div className="flex flex-col items-center justify-center h-[80vh] text-center">
       <div className="max-w-4xl mx-auto px-6">
-        <h1 className="text-5xl font-bold text-blue-600 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-4 font-title">
-          Welcome to <span className="text-blue-600 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">MiniTrello</span> 🚀
-        </h1>
+        <div className="text-center mb-8">
+          <h1 className="text-6xl font-bold text-white mb-4 drop-shadow-lg font-title tracking-wider">
+            Welcome to <span className="text-blue-600 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">EpiTrello</span>
+          </h1>
+          <p className="text-xl text-white/90 max-w-2xl mx-auto leading-relaxed font-light tracking-wide">
+            Organize your work and life with our beautiful, intuitive project management tool
+          </p>
+        </div>
+        
         <p className="text-xl text-slate-600 mb-12 font-body">
           Create boards and manage tasks easily with our intuitive Kanban-style interface.
         </p>

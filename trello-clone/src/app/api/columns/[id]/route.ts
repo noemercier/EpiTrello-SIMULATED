@@ -4,12 +4,12 @@ import { authOptions } from "../../../lib/auth";
 import { prisma } from "../../../lib/prisma";
 
 interface RouteParams {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
-export async function PUT(request: NextRequest, { params }: RouteParams) {
+export async function PUT(request: NextRequest, context: RouteParams) {
   try {
     const session = await getServerSession(authOptions);
     
@@ -17,6 +17,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
+    const params = await context.params;
     const { title } = await request.json();
 
     if (!title) {
@@ -80,13 +81,15 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
   }
 }
 
-export async function DELETE(request: NextRequest, { params }: RouteParams) {
+export async function DELETE(request: NextRequest, context: RouteParams) {
   try {
     const session = await getServerSession(authOptions);
     
     if (!session) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
+
+    const params = await context.params;
 
     // Check if user has access to the column's board
     const column = await prisma.column.findFirst({
